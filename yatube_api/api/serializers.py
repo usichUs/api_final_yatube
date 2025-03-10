@@ -19,12 +19,12 @@ class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         read_only=True, slug_field='username'
     )
-    post = serializers.PrimaryKeyRelatedField(read_only=True)  # Делаем post неизменяемым
+    post = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Comment
         fields = '__all__'
-        read_only_fields = ('author', 'post')  # Гарантируем, что они неизменяемые
+        read_only_fields = ('author', 'post')
 
 
 class FollowSerializer(serializers.ModelSerializer):
@@ -44,7 +44,7 @@ class FollowSerializer(serializers.ModelSerializer):
     )]
 
     def validate(self, data):
-        if self.context['request'].user == data['following']:  # Запрещаем подписку на себя
+        if self.context['request'].user == data['following']:
             raise serializers.ValidationError('Нельзя подписаться на себя')
         return data
 
